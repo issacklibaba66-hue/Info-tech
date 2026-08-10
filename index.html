@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>info technologies</title>
+    
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation & local icons -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-soft: #ecfdf5;
+            --gold: #f59e0b;
+            --ink: #1e293b;
+            --muted: #64748b;
+            --line: #e2e8f0;
+            --surface: #ffffff;
+            --bg: #f8fafc;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --nav-height: 80px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        /* --- NAVIGATION BAR --- */
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            padding: 0 clamp(20px, 5vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size:30px;
+            font-weight: 700;
+            color: orangered;
+            letter-spacing: 0.5px;
+        }
+
+        .logo i {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color:orangered;
+            border-radius: 8px;
+        }
+
+        .nav-links a i {
+            color: var(--primary);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            background:orangered;
+            color:white;
+        }
+
+        .nav-links a:hover i {
+            transform: scale(1.1);
+        }
+
+        .btn-login {
+            background:orangered !important;
+            color: #ffffff !important;
+            padding: 10px 24px !important;
+            border-radius: 50px !important;
+            font-weight: 800 !important;
+            margin-left: 10px;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-login i {
+            color: #ffffff !important;
+        }
+
+        .btn-login:hover {
+            background:black !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-soft);
+            color:orangered;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            background:black;
+            color: #fff;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            padding: calc(var(--nav-height) + 60px) 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .hero-slides,
+        .slide,
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+        }
+
+        .hero-slides { z-index: -3; }
+
+        .slide {
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 1.5s ease, transform 6s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .hero-overlay {
+            z-index: -2;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8)),
+                        radial-gradient(circle at center, rgba(5, 150, 105, 0.4), transparent 60%);
+        }
+
+        .hero-content {
+            width: min(900px, 100%);
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            font-weight: 800;
+            text-transform: capitalize;
+            margin-bottom: 24px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            width: min(750px, 100%);
+            margin: 0 auto 40px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-outline:hover {
+            background: #ffffff;
+            color: var(--ink);
+            border-color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background:orangered;
+            color: #ffffff;
+            border: 2px solid white;
+            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-primary:hover {
+            background:black;
+            border-color:white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(5, 150, 105, 0.4);
+        }
+
+        /* --- SECTIONS COMMON --- */
+        .section {
+            padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 60px);
+        }
+
+        .section-inner {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+        }
+
+        .section-title {
+            margin-bottom: 16px;
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color:black;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 5px;
+            background:orangered;
+            border-radius: 2px;
+        }
+
+        .section-lead {
+            width: min(700px, 100%);
+            margin: 0 auto 50px;
+            text-align: center;
+            color:black;
+            line-height: 1.8;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        /* --- CARDS GRID --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: 0 5px 50px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 5px solid rgba(0,0,0,0.03);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .card-body h3 {
+            margin-bottom: 12px;
+            color: black;
+            font-size: 1.2rem;
+            text-align:center;
+            font-weight: 800;
+        }
+
+        .card-body p {
+            color:black;
+            text-align: justify;
+            font-weight: 500;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* --- TEAM SECTION --- */
+        .team-section {
+            background: #ffffff;
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .team-card {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-radius: var(--radius);
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            background: var(--surface);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            transform: translateY(-3px);
+            border-color: var(--primary-soft);
+        }
+
+        .team-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 5px 15px rgba(5, 150, 105, 0.2);
+            flex-shrink: 0;
+        }
+
+        .team-info h4 {
+            color:black;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .team-info p {
+            color:orangered;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-align: justify;
+        }
+
+        /* --- STATS SECTION --- */
+        .stats-section {
+            padding: 80px clamp(20px, 5vw, 60px);
+            background: linear-gradient(135deg, #010510, #f93904c7);
+            color: #ffffff;
+            position: relative;
+        }
+
+        .stats-grid {
+            width: min(1000px, 100%);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-box {
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: var(--transition);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-box i {
+            color: var(--gold);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .stat-box p {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background:black;
+            color: #94a3b8;
+            padding: 70px clamp(20px, 5vw, 60px) 20px;
+        }
+
+        .footer-content {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 50px;
+            font-weight: 800;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-col h3 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-col h3 i {
+            color: var(--primary);
+        }
+
+        .footer-col p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-col ul a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-col ul a i {
+            color: var(--primary);
+        }
+
+        .footer-col ul a:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .contact-info i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 992px) {
+            .team-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: var(--nav-height);
+                left: 0;
+                width: 100%;
+                background: #ffffff;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                border-top: 1px solid var(--line);
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: clip-path 0.4s ease-in-out;
+            }
+
+            .nav-links.open {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 12px;
+                font-size: 1.1rem;
+            }
+
+            .btn-login {
+                margin-left: 0;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        /* --- EVENTS SECTION --- */
+        /* --- HORIZONTAL EVENTS SECTION --- */
+        .events-section {
+            background: var(--bg);
+        }
+
+        .events-grid {
+            display: grid;
+            /* Inapanga kadi mbili mbili kwenye PC, na moja moja kwenye simu */
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .event-card-horizontal {
+            display: flex;
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            transition: var(--transition);
+        }
+
+        .event-card-horizontal:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .event-date-block {
+            flex: 0 0 130px;
+            background:orangered; /* Rangi inayoendana na mfano wako, unaweza kubadili kuwa var(--primary) kama unataka ya kijani */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .event-date-block .day {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .event-date-block .month-year {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .event-content-block {
+            flex: 1;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .event-content-block h3 {
+            font-size: 1.15rem;
+            color:black;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color:orangered;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .event-location i {
+            color:orangered;
+            font-size: 0.85rem;
+        }
+
+        .event-content-block p {
+            color:black;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 600;
+            text-align: justify;
+            margin: 0;
+        }
+
+        /* Responsive kwa simu ndogo */
+        @media (max-width: 500px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            .event-card-horizontal {
+                flex-direction: column;
+            }
+            .event-date-block {
+                flex: auto;
+                padding: 15px;
+                flex-direction: row;
+                gap: 15px;
+            }
+            .event-date-block .day {
+                margin-bottom: 0;
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="site-nav" aria-label="Main navigation">
+        <a href="#home" class="logo">
+            <img src="images/info.png" alt="info technologies"style="width:50px;height:50px;display:block">
+            <span><span style="color:black;">INFO</span> TECHNOLOGIES</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="#home"><i class="bi bi-house"></i> HOME</a>
+            <a href="#about"><i class="bi bi-info-circle"></i> ABOUT</a>
+            <a href="#team"><i class="bi bi-people"></i> OUR TEAM</a>
+            <a href="#stats"><i class="bi bi-headset"></i> SUPPORT</a>
+            <a href="#footer"><i class="bi bi-telephone"></i> CONTACTS</a>
+            <a href="inde.php" class="btn-login"><i class="bi bi-box-arrow-in-right"></i> LOGIN</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO -->
+        <section class="hero" id="home">
+            <div class="hero-slides" aria-hidden="true">
+                <div class="slide active" style="background-image: url('images/15.jpg');"></div>
+                <div class="slide" style="background-image: url('images/10.jpg');"></div>
+                <div class="slide" style="background-image: url('images/9.jpg');"></div>
+            </div>
+            <div class="hero-overlay" aria-hidden="true"></div>
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="900">
+                <h1>Lets Innovate the Future Througn the use of modern Technologies</h1>
+                <p>INFO TECHLOGIES helps to shape the future by providing IT services to solve existing problems in the society.</p>
+                <div class="buttons">
+                    <a href="#about" class="btn btn-outline"><i class="bi bi-compass"></i> EXPLORE MORE</a>
+                    <a href="inde.php" class="btn btn-primary"><i class="bi bi-lightning-fill"></i> GET STARTED</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="section" id="about">
+            <div class="section-inner">
+                <h2 class="section-title" data-aos="fade-up">ABOUT US</h2>
+                <p class="section-lead" data-aos="fade-up" data-aos-delay="100">INFO TECHNOLOGIES is a clean and modern platform for managing and providing reliable iformation technologies services so as to compasate with nowdays global tredings and development of science and Technologies.</p>
+                <h2 class="section-title" data-aos="fade-up">OUR SERVICES</h2>
+                <div class="cards-grid">
+                    <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/web.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>WEB DEVELOPMENT</h3>
+                            <p>We provide reliable and problem solving websites using modern web technologies to delive secure and productive websites. Our platform emphasizes to delive the customer needs.</p>
+                        </div>
+                    </article>
+                    <article class="card" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/graphics.jpg" alt="graphics">
+                        <div class="card-body">
+                            <h3>GRAPHICS DESIGNS</h3>
+                            <p>We provide graphics designs services for visual enhancements and brading of bussneses and companies profiles, we provide Logo designs, Posters, Flyers, Stickers, Banners(Mabango), Event tickets n.k.</p>
+                        </div>
+                    </article>
+                    <article class="card" data-aos="fade-up" data-aos-delay="250">
+                        <img src="images/networking.jpg" alt="graphics">
+                        <div class="card-body">
+                            <h3>NETWORKING</h3>
+                            <p>We providing networking services by providing reliable networking services including, LAN installations and configulations both for huwawi and sisco devices, also we provide network design, addressing schrems, monitoring and analysis of overall networks.</p>
+                        </div>
+                    </article>
+                     <article class="card" data-aos="fade-up" data-aos-delay="250">
+                        <img src="images/analyses.jpg" alt="Produce">
+                        <div class="card-body">
+                            <h3>SYSTEM ANALYSIS & DESIGNS</h3>
+                            <p>We provide system analyis by providing reliable feasibility study and research for collecting functional and non functional requirements to understand core operations and needs of the system and problem to be solved and design the actual systems,websites or mobile applications that could solve actual problems.</p>
+                        </div>
+                    </article>
+                     <article class="card" data-aos="fade-up" data-aos-delay="250">
+                        <img src="images/app.jpg" alt="application">
+                        <div class="card-body">
+                            <h3>MOBILE APP DEVELOPMENTS</h3>
+                            <p>Also our company provide reliable mobile applications developments to solve the problems that requires solutions based on mobile applications technologies.</p>
+                        </div>
+                    </article>
+                     <article class="card" data-aos="fade-up" data-aos-delay="250">
+                        <img src="images/online.jpg" alt="Produce">
+                        <div class="card-body">
+                            <h3>ONLINE APPLICATIONS</h3>
+                            <p>We provide online applications to helps users to get various services in high efficiency and time-saved to reduce overload and junctions in getting civic services. our services includes, RITA services, HESLB services TRA services, NIDA Services n.k.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEAM -->
+        <section class="section team-section" id="team">
+            <div class="section-inner">
+                <h2 class="section-title" data-aos="fade-up">OUR TEAM</h2>
+                <p class="section-lead" data-aos="fade-up" data-aos-delay="100">The dedicated professionals behind the system design, guidance, support, and administration.</p>
+                
+                <div class="team-container">
+                    <article class="team-card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/izack.png" alt="Joseph" class="team-img" onerror="this.src='https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?auto=format&fit=crop&w=400&q=80'">
+                        <div class="team-info">
+                            <h4>IZACK MARESILINO LIBABA</h4>
+                            <p>IT EXPERT | CEO INFO TECHNOLOGIES</p>
+                            <p>BACHELOR OF INFORMATION TECHNOLOGY(BIT)</p>
+                        </div>
+                    </article>
+                    <article class="team-card" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/shamsi.jpg" alt="image" class="team-img" onerror="this.src='https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?auto=format&fit=crop&w=400&q=80'">
+                        <div class="team-info">
+                            <h4>SHAMSI SHAIBU MAULANA</h4>
+                            <p>AGRONOMIST | AGRONOMY SPECIALIST</p>
+                            <P>BACHELOR OF AGRONOMY(BSCA)</P>
+                        </div>
+                    </article>
+                    <article class="team-card" data-aos="fade-up" data-aos-delay="250">
+                        <img src="images/fred.jpg" alt="image" class="team-img" onerror="this.src='https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?auto=format&fit=crop&w=400&q=80'">
+                        <div class="team-info">
+                            <h4>FREDRICK GEOFREY LEKAJO</h4>
+                            <p>NETWORK EXPERT | NETWORK SPECIALIST</p>
+                            <P>BACHELOR OF COMPUTER SCIENCE(BCS)</P>
+                        </div>
+                    </article>
+                    <article class="team-card" data-aos="fade-up" data-aos-delay="300">
+                        <img src="images/jose.jpg" alt="image" class="team-img" onerror="this.src='https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?auto=format&fit=crop&w=400&q=80'">
+                        <div class="team-info">
+                            <h4>JOSEPH KENETH JOSEPH</h4>
+                            <p>MARKET AND SALES EXPERT | MARKETING MANAGER</p>
+                            <p>BACHELOR OF BUSSNESS ADMINISTRATION(BBA)</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+<!-- UPCOMING EVENTS -->
+        <section class="section events-section" id="events">
+            <div class="section-inner">
+                <h2 class="section-title" data-aos="fade-up">OUR EVENTS</h2>
+                <p class="section-lead" data-aos="fade-up" data-aos-delay="100">Stay updated with our latest activities, training, and exhibitions.</p>
+                
+                <div class="events-grid">
+                    <!-- Event 1 -->
+                    <article class="event-card-horizontal" data-aos="fade-up" data-aos-delay="150">
+                        <div class="event-date-block">
+                            <span class="day">14</span>
+                            <span class="month-year">JUN 2026</span>
+                        </div>
+                        <div class="event-content-block">
+                            <h3>National ICT Events</h3>
+                            <div class="event-location">
+                                <i class="bi bi-geo-alt"></i> Dar es Salaam, TZ
+                            </div>
+                            <p>Discover  solutions to boost productions.</p>
+                        </div>
+                    </article>
+
+                    <!-- Event 2 -->
+                    <article class="event-card-horizontal" data-aos="fade-up" data-aos-delay="200">
+                        <div class="event-date-block">
+                            <span class="day">22</span>
+                            <span class="month-year">JUL 2026</span>
+                        </div>
+                        <div class="event-content-block">
+                            <h3>Farmers Quality Control Outreach</h3>
+                            <div class="event-location">
+                                <i class="bi bi-geo-alt"></i> Morogoro Municipal Council
+                            </div>
+                            <p>A hands-on workshop focusing on crop quality maintenance and better harvesting techniques.</p>
+                        </div>
+                    </article>
+
+                    <!-- Event 3 -->
+                    <article class="event-card-horizontal" data-aos="fade-up" data-aos-delay="250">
+                        <div class="event-date-block">
+                            <span class="day">05</span>
+                            <span class="month-year">OCT 2026</span>
+                        </div>
+                        <div class="event-content-block">
+                            <h3>Agro-Market Networking Summit</h3>
+                            <div class="event-location">
+                                <i class="bi bi-geo-alt"></i> Dodoma City Center
+                            </div>
+                            <p>Connecting crop producers with large-scale buyers to ensure reliable markets.</p>
+                        </div>
+                    </article>
+
+                    <!-- Event 4 -->
+                    <article class="event-card-horizontal" data-aos="fade-up" data-aos-delay="300">
+                        <div class="event-date-block">
+                            <span class="day">12</span>
+                            <span class="month-year">NOV 2026</span>
+                        </div>
+                        <div class="event-content-block">
+                            <h3>Modern Seed Multiplication</h3>
+                            <div class="event-location">
+                                <i class="bi bi-geo-alt"></i> Nane Nane Grounds, Mbeya
+                            </div>
+                            <p>Learn advanced techniques in seed multiplication to ensure sustainable production.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="section-inner">
+                <h2 class="section-title" data-aos="fade-up">OUR GALLERY</h2>
+                <p class="section-lead" data-aos="fade-up" data-aos-delay="100">Explore our enhanced gallery to see where we are.</p>
+                
+                <div class="cards-grid">
+                    <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/10bdcee5acece5da5ea77a89d61ee653.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>FUTURE INNOVATION</h3>
+                           
+                        </div>
+                    </article>
+                    <article class="card" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/2d4e02da34141931d006357de1f9a00b.jpg" alt="image">
+                        <div class="card-body">
+                            <h3>MODERN TECHNOLOGIES</h3>
+                            
+                        </div>
+                    </article>
+                    <article class="card" data-aos="fade-up" data-aos-delay="250">
+                        <img src="images/22b5604eca105ae195aa809dc734d071.jpg" alt="Produce">
+                        <div class="card-body">
+                            <h3>MARKETS AND SALES</h3>
+                            
+                    </article>
+                      <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/114d596c43d0531850b6d8777bd26208.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>TEAM WORK</h3>
+                           
+                        </div>
+                    </article>
+                      <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/4b6c4f71a5195ab2f3772fc0df0db1d4.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>ARTFICIAL INTELLIGENCE</h3>
+                            
+                        </div>
+                    </article>
+                      <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/8ca3c8db19b3c47c9bde2d525123ff96.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>UNIVERSAL CONNECTIVITY</h3>
+                            
+                        </div>
+                    </article>
+                      <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/ce30792bf6a95375bae71725d6cc1b22.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>CODING EFFICIENCY</h3>
+                           
+                        </div>
+                    </article>
+                      <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/523566e31abfe437343b6aae6a2669ac.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>WEB DEVELOPMENT</h3>
+                            
+                    </article>
+                      <article class="card" data-aos="fade-up" data-aos-delay="150">
+                        <img src="images/2218a0e21bc50020e83cfc5faa405ade.jpg" alt="Crop field">
+                        <div class="card-body">
+                            <h3>VIDEO EDITING</h3>
+
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <!-- STATS -->
+        <section class="stats-section" id="stats">
+            <div class="stats-grid">
+                <div class="stat-box" data-aos="zoom-in" data-aos-delay="100">
+                    <i class="bi bi-people-fill"></i>
+                    <div class="stat-number counter" data-target="50000">0</div>
+                    <p>TOTAL MEMBERS</p>
+                </div>
+                <div class="stat-box" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="bi bi-person-badge"></i>
+                    <div class="stat-number counter" data-target="2000">0</div>
+                    <p>TOTAL SERVICES</p>
+                </div>
+                <div class="stat-box" data-aos="zoom-in" data-aos-delay="300">
+                    <i class="bi bi-graph-up"></i>
+                    <div class="stat-number counter" data-target="50">0</div>
+                    <p>VISITORS</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-col" data-aos="fade-up">
+                <h3><i class="bi bi-leaf"></i> INFO TECHNOLOGY</h3>
+                <p>We use modern  technology to simplify records, improve services, and support better decisions for companies and partners. Empowering Future through digital innovation.</p>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="#home"><i class="bi bi-house"></i> HOME</a></li>
+                    <li><a href="#about"><i class="bi bi-info-circle"></i> ABOUT US</a></li>
+                    <li><a href="#team"><i class="bi bi-people"></i>OUR TEAM</a></li>
+                    <li><a href="inde.php"><i class="bi bi-box-arrow-in-right"></i>LOGIN</a></li>
+                </ul>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                <h3>CONTACTS US</h3>
+                <ul class="contact-info">
+                    <li><i class="bi bi-geo-alt"></i> DARE ES LAAM, TANZANIA</li>
+                    <li><i class="bi bi-envelope"></i> infotech@gmail.com</li>
+                    <li><i class="bi bi-telephone"></i> +255 693 174 498 <br> +255 621 326 158</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 INFO TECHNOLOGIES. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS Animations
+        if (window.AOS) {
+            AOS.init({
+                once: true,
+                offset: 50,
+                duration: 800
+            });
+        }
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const icon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            if(navLinks.classList.contains('open')) {
+                icon.classList.remove('bi-list');
+                icon.classList.add('bi-x');
+            } else {
+                icon.classList.remove('bi-x');
+                icon.classList.add('bi-list');
+            }
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                icon.classList.remove('bi-x');
+                icon.classList.add('bi-list');
+            });
+        });
+
+        // Hero Image Slider
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        if (slides.length > 1) {
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 6000);
+        }
+
+        // Number Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        let countersStarted = false;
+
+        function startCounters() {
+            if (countersStarted) return;
+            countersStarted = true;
+
+            counters.forEach(counter => {
+                const target = Number(counter.dataset.target || 0); // Reads PHP output
+                const duration = 2000; // 2 seconds
+                const start = performance.now();
+
+                function update(now) {
+                    const progress = Math.min((now - start) / duration, 1);
+                    // Using ease-out logic
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.floor(target * easeProgress).toLocaleString();
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        // Trigger counters when scrolled into view
+        const statsSection = document.querySelector('.stats-section');
+        if ('IntersectionObserver' in window && statsSection) {
+            const observer = new IntersectionObserver(entries => {
+                if (entries.some(entry => entry.isIntersecting)) {
+                    startCounters();
+                    observer.disconnect();
+                }
+            }, { threshold: 0.5 });
+            observer.observe(statsSection);
+        } else {
+            startCounters();
+        }
+    </script>
+</body>
+</html>
